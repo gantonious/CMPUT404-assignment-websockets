@@ -249,24 +249,15 @@ function update() {
     drawFrame();
 }
 
-function process_entity_updated(event) {
-    world[event.entity] = event.payload;
-}
-
-function process_world_changed(event) {
-    world = event;
-}
-
 function process_event(event) {
-    if ('entity' in event) {
-        process_entity_updated(event);
-    } else {
-        process_world_changed(event);
+    for (var entity in event) {
+        world[entity] = event[entity];
     }
 }
 
 function update_remote_entity(entity, data) {
-    event = { "entity": entity, "payload": data };
+    event = {};
+    event[entity] = data;
     serialized_event = JSON.stringify(event);
     socket.send(serialized_event);
 }
