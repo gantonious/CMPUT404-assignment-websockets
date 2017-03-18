@@ -274,9 +274,7 @@ function update_remote_entity(entity, data) {
 function wsSetup() {
     var url = "ws://"+host+"/subscribe";
     socket = new WebSocket(url);
-    socket.onopen = function() {
-        //XXX: TODO What are you going to do here?
-    };
+    socket.onopen = function() {};
     socket.onerror = function(msg) {
         debug("WebSocket Error:" + msg.data);
     };
