@@ -22,9 +22,8 @@
     "/>
     <script src="json2.js"></script>
   </head>
-  <body bgcolor="white" height="100%" width="100%">
-    <canvas id="c" width="100%" height="100%" style="-webkit-tap-highlight-color: transparent;"></canvas>
-
+  <body bgcolor="black">
+    <canvas id="c" style="-webkit-tap-highlight-color: transparent;"></canvas>
     <script>
       // Fix me
 var canvas = document.getElementById('c');
@@ -54,6 +53,7 @@ function drawCircle(context,entity) {
         fillStyle = entity["colour"];
         strokeStyle = fillStyle;
         arc(x, y, (entity["radius"])?entity["radius"]:50, 0, 2.0 * Math.PI, false);
+        fill();
         stroke();
     }
 }
@@ -123,13 +123,12 @@ function getPosition(e) {
 function addEntity(entity, data) {
     world[entity] = data;
     drawNextFrame(); // (but should we?)
-    //XXX: Send a XHTML Request that updates the entity you just modified!
     update_remote_entity(entity, data);
 }
 
 var counter = 0;
 function addEntityWithoutName(data) {
-    var name = "X"+(counter++)%100;
+    var name = "X"+(counter++)%1000;
     addEntity(name,data);
 }
 
@@ -230,17 +229,9 @@ mouse = (function() {
 })();
 
 // Add the application specific mouse listeners!
-//XXX: TODO Make these prettier!
-mouse.mousedowners.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'blue'});
-});
-
-mouse.mouseuppers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'red'});
-});
 
 mouse.mousedraggers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'colour':'green',
+    addEntityWithoutName({'x':x,'y':y,'colour':'white',
                           'radius':10});
 });
 
