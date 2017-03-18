@@ -89,8 +89,7 @@ myWorld = World()
 clients = []
 
 def build_update_event(entity, data):
-    update_payload = { "entity" : entity,
-                       "payload" : data }
+    update_payload = { entity : data }
 
     return json.dumps(update_payload)
 
@@ -122,14 +121,9 @@ def read_ws(ws,client):
         print e.message
 
 def process_incoming_message(message):
-    entity = message["entity"]
-    data = message["payload"]
-
-    update_property_if_found(entity, 'x', data)
-    update_property_if_found(entity, 'y', data)
-    update_property_if_found(entity, 'colour', data)
-    update_property_if_found(entity, 'radius', data)
-
+    entity = message.keys()[0]
+    data = message[entity]
+    myWorld.set(entity, data)
 
 # from: https://github.com/abramhindle/WebSocketsExamples/blob/master/chat.py
 @sockets.route('/subscribe')
