@@ -7,6 +7,18 @@ See requirements.org (plain-text) for a description of the project.
 
 Make a shared state Websockets drawing program
 
+Resources Used
+==============
+
+- In sockets.py line 45, the client object was taken from https://github.com/abramhindle/WebSocketsExamples/blob/master/chat.py
+- In sockets.py line 110, the read loop was taken from https://github.com/abramhindle/WebSocketsExamples/blob/master/chat.py
+- In sockets.py line 130, the connection code and write loop was taken from https://github.com/abramhindle/WebSocketsExamples/blob/master/chat.py
+
+These resources were used under the following license:
+
+```
+```
+
 Prereqs
 =======
 
