@@ -75,7 +75,7 @@ clients = []
 
 def build_update_event(entity, data):
     update_payload = { "entity" : entity,
-                       "data" : data }
+                       "payload" : data }
 
     return json.dumps(update_payload)
 
@@ -103,16 +103,18 @@ def read_ws(ws,client):
                 process_incoming_message(packet)
             else:
                 break
-    except:
-        pass
+    except Exception as e:
+        print e.message
 
 def process_incoming_message(message):
-    entity = update_event["entity"]
-    data = update_event["data"]
+    entity = message["entity"]
+    data = message["payload"]
 
     update_property_if_found(entity, 'x', data)
     update_property_if_found(entity, 'y', data)
     update_property_if_found(entity, 'colour', data)
+    update_property_if_found(entity, 'radius', data)
+
 
 # from: https://github.com/abramhindle/WebSocketsExamples/blob/master/chat.py
 @sockets.route('/subscribe')
@@ -122,6 +124,10 @@ def subscribe_socket(ws):
     client = Client()
     clients.append(client)
     g = gevent.spawn(read_ws, ws, client)
+
+    # drop the entire world on socket spawn
+    client.put(json.dumps(myWorld.world()))
+
     try:
         while True:
             msg = client.get()
@@ -155,6 +161,7 @@ def update(entity):
     update_property_if_found(entity, 'x', body)
     update_property_if_found(entity, 'y', body)
     update_property_if_found(entity, 'colour', body)
+    update_property_if_found(entity, 'radius', data)
 
     return jsonify(myWorld.get(entity))
 
